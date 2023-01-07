@@ -94,7 +94,7 @@ const ASSETS_DIR = RelocatableFolders.@path joinpath(@__DIR__, "..", "assets")
 assetpath(files...) = normpath(joinpath(ASSETS_DIR, files...))
 
 include("documentation/docstringextension.jl")
-include("utilities/quaternions.jl")
+# include("utilities/quaternions.jl")
 include("bezier.jl")
 include("types.jl")
 include("utilities/texture_atlas.jl")
