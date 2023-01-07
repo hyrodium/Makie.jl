@@ -36,11 +36,11 @@
 # Base.getindex(x::Quaternion, i::Integer) = x.data[i]
 # Base.isapprox(x::Quaternion, y::Quaternion) = all((x.data .≈ y.data))
 
-# function qrotation(axis::StaticVector{3}, theta::Number)
-#     u = normalize(axis)
-#     s = sin(theta / 2)
-#     return Quaternion(s * u[1], s * u[2], s * u[3], cos(theta / 2))
-# end
+function qrotation(axis::StaticVector{3}, theta::Number)
+    u = normalize(axis)
+    s, c = sincos(theta / 2)
+    return Quaternions.Quaternion(c, s*u[1], s*u[2], s*u[3])
+end
 
 # function Base.broadcast(f, arg1::Quaternion, arg2::Quaternion)
 #     Quaternion(f.(arg1.data, arg2.data))
@@ -58,29 +58,33 @@
 #     return P(x3[1], x3[2])
 # end
 
-# function Base.:(*)(quat::Quaternion{T}, vec::P) where {T, P <: StaticVector{3}}
-#     num = quat[1] * T(2)
-#     num2 = quat[2] * T(2)
-#     num3 = quat[3] * T(2)
+# TODO: this type piracy should be fixed
+function Base.:(*)(quat::Quaternions.Quaternion{T}, vec::P) where {T, P <: StaticVector{3}}
+    w = real(quat)
+    x, y, z = Quaternions.imag_part(quat)
 
-#     num4 = quat[1] * num
-#     num5 = quat[2] * num2
-#     num6 = quat[3] * num3
+    num = x * T(2)
+    num2 = y * T(2)
+    num3 = z * T(2)
 
-#     num7 = quat[1] * num2
-#     num8 = quat[1] * num3
-#     num9 = quat[2] * num3
+    num4 = x * num
+    num5 = y * num2
+    num6 = z * num3
 
-#     num10 = quat[4] * num
-#     num11 = quat[4] * num2
-#     num12 = quat[4] * num3
+    num7 = x * num2
+    num8 = x * num3
+    num9 = y * num3
 
-#     return P(
-#         (1f0 - (num5 + num6)) * vec[1] + (num7 - num12) * vec[2] + (num8 + num11) * vec[3],
-#         (num7 + num12) * vec[1] + (1f0 - (num4 + num6)) * vec[2] + (num9 - num10) * vec[3],
-#         (num8 - num11) * vec[1] + (num9 + num10) * vec[2] + (1f0 - (num4 + num5)) * vec[3]
-#     )
-# end
+    num10 = w * num
+    num11 = w * num2
+    num12 = w * num3
+
+    return P(
+        (1f0 - (num5 + num6)) * vec[1] + (num7 - num12) * vec[2] + (num8 + num11) * vec[3],
+        (num7 + num12) * vec[1] + (1f0 - (num4 + num6)) * vec[2] + (num9 - num10) * vec[3],
+        (num8 - num11) * vec[1] + (num9 + num10) * vec[2] + (1f0 - (num4 + num5)) * vec[3]
+    )
+end
 # Base.conj(q::Quaternion) = Quaternion(-q[1], -q[2], -q[3], q[4])
 
 # function Base.:(*)(q::Quaternion, w::Quaternion)
@@ -94,33 +98,39 @@
 
 # SMat{N, L}(q::Quaternion{T}) where {N, T, L} = Mat{N, N, T, L}(q)
 
-# function Mat4{ET}(q::Quaternion{T}) where {T, ET}
-#     sx, sy, sz = 2q[4]*q[1],  2q[4]*q[2],   2q[4]*q[3]
-#     xx, xy, xz = 2q[1]^2,    2q[1]*q[2],  2q[1]*q[3]
-#     yy, yz, zz = 2q[2]^2,    2q[2]*q[3],  2q[3]^2
-#     T0, T1 = zero(ET), one(ET)
-#     return Mat{4, 4, ET}(
-#         T1-(yy+zz), xy+sz,      xz-sy,      T0,
-#         xy-sz,      T1-(xx+zz), yz+sx,      T0,
-#         xz+sy,      yz-sx,      T1-(xx+yy), T0,
-#         T0,         T0,         T0,         T1
-#     )
-# end
+# TODO: this type piracy should be fixed
+function Mat4{ET}(q::Quaternions.Quaternion{T}) where {T, ET}
+    w = real(q)
+    x, y, z = Quaternions.imag_part(q)
+    sx, sy, sz = 2w*x, 2w*y, 2w*z
+    xx, xy, xz = 2x^2, 2x*y, 2x*z
+    yy, yz, zz = 2y^2, 2y*z, 2z^2
+    T0, T1 = zero(ET), one(ET)
+    return Mat{4, 4, ET}(
+        T1-(yy+zz), xy+sz,      xz-sy,      T0,
+        xy-sz,      T1-(xx+zz), yz+sx,      T0,
+        xz+sy,      yz-sx,      T1-(xx+yy), T0,
+        T0,         T0,         T0,         T1
+    )
+end
 
 # concrete_type(::Type{Any}, ::Type{T}) where T = T
 # concrete_type(::Type{T}, x) where T = T
 
-# function Mat3{ET}(q::Quaternion{T}) where {T, ET}
-#     sx, sy, sz = 2q[4]*q[1], 2q[4]*q[2],  2q[4]*q[3]
-#     xx, xy, xz = 2q[1]^2,   2q[1]*q[2], 2q[1]*q[3]
-#     yy, yz, zz = 2q[2]^2,   2q[2]*q[3], 2q[3]^2
-#     T0, T1 = zero(ET), one(ET)
-#     return Mat{3, 3, ET}(
-#         T1-(yy+zz), xy+sz,      xz-sy,
-#         xy-sz,      T1-(xx+zz), yz+sx,
-#         xz+sy,      yz-sx,      T1-(xx+yy)
-#     )
-# end
+# TODO: this type piracy should be fixed
+function Mat3{ET}(q::Quaternions.Quaternion{T}) where {T, ET}
+    w = real(q)
+    x, y, z = Quaternions.imag_part(q)
+    sx, sy, sz = 2w*x, 2w*y, 2w*z
+    xx, xy, xz = 2x^2, 2x*y, 2x*z
+    yy, yz, zz = 2y^2, 2y*z, 2z^2
+    T1 = one(ET)
+    return Mat{3, 3, ET}(
+        T1-(yy+zz), xy+sz,      xz-sy,
+        xy-sz,      T1-(xx+zz), yz+sx,
+        xz+sy,      yz-sx,      T1-(xx+yy)
+    )
+end
 
 # function orthogonal(v::T) where T <: StaticVector{3}
 #     x, y, z = abs.(v)
