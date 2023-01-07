@@ -130,7 +130,7 @@ _is_latex_string(x::LaTeXString) = true
 _is_latex_string(other) = false
 
 function text_bb(str, font, size)
-    rot = Quaternionf(0,0,0,1)
+    rot = Quaternions.Quaternion{Float32}(1,0,0,0)
     fonts = nothing # TODO: remove the arg if possible
     layout = layout_text(
         str, size, font, fonts, Vec2f(0), rot, 0.5, 1.0,

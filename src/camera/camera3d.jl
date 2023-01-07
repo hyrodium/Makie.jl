@@ -466,7 +466,7 @@ function _rotate_cam!(scene, cam::Camera3D, angles::VecTypes, from_mouse=false)
     fix_y = ispressed(scene, cam.attributes[:fix_y_key][])
     fix_z = ispressed(scene, cam.attributes[:fix_z_key][])
     cx, cy, cz = cam.attributes[:circular_rotation][]
-    rotation = Quaternionf(0, 0, 0, 1)
+    rotation = Quaternions.Quaternion{Float32}(1, 0, 0, 0)
     if !xor(fix_x, fix_y, fix_z)
         # if there are more or less than one restriction apply all rotations
         rotation *= qrotation(y_axis, angles[2])
@@ -493,7 +493,7 @@ function _rotate_cam!(scene, cam::Camera3D, angles::VecTypes, from_mouse=false)
             rotation *= qrotation(x_axis, angles[1])
             rotation *= qrotation(z_axis, angles[3])
             # the first three components are related to rotations around the x/y/z-axis
-            rotation = Quaternionf(rotation.data .* (fix_x, fix_y, fix_z, 1))
+            rotation = Quaternions.Quaternion{Float32}(rotation.data .* (1, fix_x, fix_y, fix_z))
         end
     end
 

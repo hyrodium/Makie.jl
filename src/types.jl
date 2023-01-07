@@ -248,7 +248,7 @@ struct Transformation <: Transformable
     parent::RefValue{Transformation}
     translation::Observable{Vec3f}
     scale::Observable{Vec3f}
-    rotation::Observable{Quaternionf}
+    rotation::Observable{Quaternions.Quaternion{Float32}}
     model::Observable{Mat4f}
     # data conversion observable, for e.g. log / log10 etc
     transform_func::Observable{Any}
@@ -350,7 +350,7 @@ struct GlyphCollection
     origins::Vector{Point3f}
     extents::Vector{GlyphExtent}
     scales::ScalarOrVector{Vec2f}
-    rotations::ScalarOrVector{Quaternionf}
+    rotations::ScalarOrVector{Quaternions.Quaternion{Float32}}
     colors::ScalarOrVector{RGBAf}
     strokecolors::ScalarOrVector{RGBAf}
     strokewidths::ScalarOrVector{Float32}

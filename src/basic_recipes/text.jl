@@ -352,7 +352,7 @@ function layout_text(rt::RichText, ts, f, fset, al, rot, jus, lh, col)
     apply_alignment_and_justification!(lines, jus, al)
 
     gc = GlyphCollection(reduce(vcat, lines))
-    quat = to_rotation(rot)::Quaternionf
+    quat = to_rotation(rot)::Quaternions.Quaternion{Float32}
     gc.origins .= Ref(quat) .* gc.origins
     @assert gc.rotations.sv isa Vector # should always be a vector because that's how the glyphcollection is created
     gc.rotations.sv .= Ref(quat) .* gc.rotations.sv

@@ -980,12 +980,11 @@ to_font(fonts::Attributes, x) = to_font(x)
     to_rotation(b, tuple_float)
     to_rotation(b, vec4)
 """
-to_rotation(s::Quaternionf) = s
-to_rotation(s::Quaternion) = Quaternionf(s.data...)
+to_rotation(s::Quaternions.Quaternion) = Quaternions.Quaternion{Float32}(s)
 
 function to_rotation(s::VecTypes{N}) where N
     if N == 4
-        Quaternionf(s...)
+        Quaternions.Quaternion{Float32}(s[4],s[1],s[2],s[3])
     elseif N == 3
         rotation_between(Vec3f(0, 0, 1), to_ndim(Vec3f, s, 0.0))
     elseif N == 2
@@ -998,7 +997,7 @@ end
 to_rotation(s::Tuple{VecTypes, Number}) = qrotation(to_ndim(Vec3f, s[1], 0.0), s[2])
 to_rotation(angle::Number) = qrotation(Vec3f(0, 0, 1), angle)
 to_rotation(r::AbstractVector) = to_rotation.(r)
-to_rotation(r::AbstractVector{<: Quaternionf}) = r
+to_rotation(r::AbstractVector{<: Quaternions.Quaternion{Float32}}) = r
 
 convert_attribute(x, ::key"colorrange") = to_colorrange(x)
 to_colorrange(x) = isnothing(x) ? nothing : Vec2f(x)

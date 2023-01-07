@@ -359,7 +359,7 @@ function draw_atomic(screen::Screen, scene::Scene,
         gl_attributes[:rotation] = lift(glyphcollection) do gc
             if gc isa AbstractArray
                 reduce(vcat, (Makie.collect_vector(g.rotations, length(g.glyphs)) for g in gc),
-                    init = Quaternionf[])
+                    init = Quaternions.Quaternion{Float32}[])
             else
                 Makie.collect_vector(gc.rotations, length(gc.glyphs))
             end

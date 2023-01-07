@@ -270,7 +270,7 @@ function create_shader(scene::Scene, plot::Makie.Text{<:Tuple{<:Union{<:Makie.Gl
     uniform_rotation = lift(glyphcollection) do gc
         if gc isa AbstractArray
             reduce(vcat, (Makie.collect_vector(g.rotations, length(g.glyphs)) for g in gc),
-                init = Quaternionf[])
+                init = Quaternions.Quaternion{Float32}[])
         else
             Makie.collect_vector(gc.rotations, length(gc.glyphs))
         end

@@ -346,7 +346,7 @@ end
 @reference_test "image scatter" begin
     scatter(
         1:10, 1:10, RNG.rand(10, 10) .* 10,
-        rotations=normalize.(RNG.rand(Quaternionf, 10 * 10)),
+        rotations=normalize.(RNG.rand(Quaternions.Quaternion{Float32}, 10 * 10)),
         markersize=20,
         # can also be an array of images for each point
         # need to be the same size for best performance, though

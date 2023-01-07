@@ -188,14 +188,14 @@ function plot!(p::Tooltip{<:Tuple{<:VecTypes}})
             rotate!(mp, qrotation(Vec3f(0,0,1), -0.5pi))
         elseif placement in (:below, :down, :bottom)
             translate!(mp, Vec3f(o[1] + align * w[1], o[2] + w[2], 0))
-            rotate!(mp, Quaternionf(0,0,1,0)) # pi
+            rotate!(mp, Quaternions.Quaternion{Float32}(0,0,0,1)) # pi
         elseif placement in (:above, :up, :top)
             translate!(mp, Vec3f(o[1] + align * w[1], o[2], 0))
-            rotate!(mp, Quaternionf(0,0,0,1)) # 0
+            rotate!(mp, Quaternions.Quaternion{Float32}(1,0,0,0)) # 0
         else
             @error "Tooltip placement $placement invalid. Assuming :above"
             translate!(mp, Vec3f(o[1] + align * w[1], o[2], 0))
-            rotate!(mp, Quaternionf(0,0,0,1))
+            rotate!(mp, Quaternions.Quaternion{Float32}(1,0,0,0))
         end
         return
     end

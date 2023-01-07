@@ -3,11 +3,11 @@ Base.parent(t::Transformation) = isassigned(t.parent) ? t.parent[] : nothing
 function Transformation(transform_func=identity;
                         scale=Vec3f(1),
                         translation=Vec3f(0),
-                        rotation=Quaternionf(0, 0, 0, 1))
+                        rotation=Quaternions.Quaternion{Float32}(1, 0, 0, 0))
 
     scale_o = convert(Observable{Vec3f}, scale)
     translation_o = convert(Observable{Vec3f}, translation)
-    rotation_o = convert(Observable{Quaternionf}, rotation)
+    rotation_o = convert(Observable{Quaternions.Quaternion{Float32}}, rotation)
     model = map(transformationmatrix, translation_o, scale_o, rotation_o)
     return Transformation(
         translation_o,
@@ -21,11 +21,11 @@ end
 function Transformation(transformable::Transformable;
                         scale=Vec3f(1),
                         translation=Vec3f(0),
-                        rotation=Quaternionf(0, 0, 0, 1))
+                        rotation=Quaternions.Quaternion{Float32}(1, 0, 0, 0))
 
     scale_o = convert(Observable{Vec3f}, scale)
     translation_o = convert(Observable{Vec3f}, translation)
-    rotation_o = convert(Observable{Quaternionf}, rotation)
+    rotation_o = convert(Observable{Quaternions.Quaternion{Float32}}, rotation)
     parent_transform = transformation(transformable)
 
     pmodel = parent_transform.model

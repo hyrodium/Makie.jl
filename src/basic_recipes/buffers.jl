@@ -44,7 +44,7 @@ end
 
 function TextBuffer(
         scene::SceneLike, ::Type{Point{N}} = Point{2};
-        rotation = [Quaternionf(0,0,0,1)],
+        rotation = [Quaternions.Quaternion{Float32}(1,0,0,0)],
         color = RGBAf[RGBAf(0,0,0,0)],
         fontsize = Float32[0],
         font = [defaultfont()],
