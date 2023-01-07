@@ -31,7 +31,7 @@ serialize_three(val::Number) = val
 serialize_three(val::Vec2f) = convert(Vector{Float32}, val)
 serialize_three(val::Vec3f) = convert(Vector{Float32}, val)
 serialize_three(val::Vec4f) = convert(Vector{Float32}, val)
-serialize_three(val::Quaternion) = convert(Vector{Float32}, collect(val.data))
+serialize_three(val::Quaternions.Quaternion) = convert(Vector{Float32}, collect(val.data))
 serialize_three(val::RGB) = Float32[red(val), green(val), blue(val)]
 serialize_three(val::RGBA) = Float32[red(val), green(val), blue(val), alpha(val)]
 serialize_three(val::Mat4f) = collect(vec(val))
@@ -145,8 +145,8 @@ function ShaderAbstractions.type_string(::ShaderAbstractions.AbstractContext,
 end
 
 function ShaderAbstractions.convert_uniform(::ShaderAbstractions.AbstractContext,
-                                            t::Quaternion)
-    return convert(Quaternion, t)
+                                            t::Quaternions.Quaternion)
+    return convert(Quaternions.Quaternion, t)
 end
 
 function wgl_convert(value, key1, key2)

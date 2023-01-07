@@ -115,7 +115,7 @@ function rotate_cam(
         theta::Vec{3, T},
         cam_right::Vec{3, T}, cam_up::Vec{3, T}, cam_dir::Vec{3, T}
     ) where T
-    rotation = Quaternion{T}(0, 0, 0, 1)
+    rotation = Quaternions.Quaternion{T}(1, 0, 0, 0)
     if !all(isfinite.(theta))
         # We can only rotate for finite values
         # Makie#338

@@ -48,11 +48,11 @@ end
 
 _inkboundingbox(ext::GlyphExtent) = ext.ink_bounding_box
 
-function boundingbox(glyphcollection::GlyphCollection, position::Point3f, rotation::Quaternion)
+function boundingbox(glyphcollection::GlyphCollection, position::Point3f, rotation::Quaternions.Quaternion)
     return boundingbox(glyphcollection, rotation) + position
 end
 
-function boundingbox(glyphcollection::GlyphCollection, rotation::Quaternion)
+function boundingbox(glyphcollection::GlyphCollection, rotation::Quaternions.Quaternion)
     if isempty(glyphcollection.glyphs)
         return Rect3f(Point3f(0), Vec3f(0))
     end

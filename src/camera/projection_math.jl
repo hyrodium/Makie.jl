@@ -189,14 +189,14 @@ mutable struct Pivot{T}
     xaxis       ::Vec{3, T}
     yaxis       ::Vec{3, T}
     zaxis       ::Vec{3, T}
-    rotation    ::Quaternion
+    rotation    ::Quaternions.Quaternion
     translation ::Vec{3, T}
     scale       ::Vec{3, T}
 end
 
 GeometryBasics.origin(p::Pivot) = p.origin
 
-rotationmatrix4(q::Quaternion{T}) where {T} = Mat4{T}(q)
+rotationmatrix4(q::Quaternions.Quaternion{T}) where {T} = Mat4{T}(q)
 
 function transformationmatrix(p::Pivot)
     translationmatrix(p.origin) * #go to origin
@@ -216,7 +216,7 @@ function transformationmatrix(translation, scale)
     )
 end
 
-function transformationmatrix(translation, scale, rotation::Quaternion)
+function transformationmatrix(translation, scale, rotation::Quaternions.Quaternion)
     trans_scale = transformationmatrix(translation, scale)
     rotation = Mat4f(rotation)
     trans_scale*rotation
@@ -235,7 +235,7 @@ function rotation(u::Vec{3, T}, v::Vec{3, T}) where T
         return qrotation(normalize(cross(u, other)), T(180))
     end
     half = normalize(u+v)
-    return Quaternion(cross(u, half)..., dot(u, half))
+    return Quaternions.Quaternion(dot(u, half), cross(u, half)...)
 end
 
 function to_world(scene::Scene, point::T) where T <: StaticVector
