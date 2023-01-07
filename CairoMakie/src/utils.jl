@@ -80,7 +80,7 @@ end
 remove_billboard(x) = x
 remove_billboard(b::Makie.Billboard) = b.rotation
 
-to_2d_rotation(quat::Makie.Quaternion) = -Makie.quaternion_to_2d_angle(quat)
+to_2d_rotation(quat::Quaternions.Quaternion) = -Makie.quaternion_to_2d_angle(quat)
 
 # TODO: this is a hack around a hack.
 # Makie encodes the transformation from a 2-vector

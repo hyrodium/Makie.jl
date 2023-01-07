@@ -140,7 +140,7 @@ isscalar(x::Observable) = isscalar(x[])
 isscalar(x) = true
 
 function ShaderAbstractions.type_string(::ShaderAbstractions.AbstractContext,
-                                        ::Type{<:Makie.Quaternion})
+                                        ::Type{<:Quaternions.Quaternion})
     return "vec4"
 end
 

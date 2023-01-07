@@ -114,7 +114,7 @@ function to_rpr_object(context, matsys, scene, plot::Makie.MeshScatter)
 
     rotations = Makie.to_rotation(plot.rotations[])
 
-    rotations = if rotations isa Makie.Quaternion
+    rotations = if rotations isa Quaternions.Quaternion
         Iterators.repeated(rotations, n_instances)
     else
         rotations
