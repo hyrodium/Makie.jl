@@ -317,7 +317,7 @@ struct GlyphInfo
     origin::Point2f
     extent::GlyphExtent
     size::Vec2f
-    rotation::Quaternion
+    rotation::Quaternions.Quaternion
     color::RGBAf
     strokecolor::RGBAf
     strokewidth::Float32
