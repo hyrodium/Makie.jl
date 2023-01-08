@@ -2,8 +2,9 @@ struct Degree{T} <: Number
     θ::T
 end
 Base.:/(θ::Degree, x::Number) = Degree(θ.θ / x)
-Base.sin(θ::Degree) = sin(θ.θ * π/180)
-Base.cos(θ::Degree) = cos(θ.θ * π/180)
+Base.sin(θ::Degree) = sind(θ.θ)
+Base.cos(θ::Degree) = cosd(θ.θ)
+Base.sincos(θ::Degree) = sincosd(θ.θ)
 
 @testset "Quaternions" begin
 
@@ -54,6 +55,6 @@ Base.cos(θ::Degree) = cos(θ.θ * π/180)
     # `π` is not an `AbstractFloat` but it is a `Number`
     @test to_rotation(π) == to_rotation(1.0π)
     @test to_rotation((v, π)) == to_rotation((v, 1.0π))
-    @test to_rotation(Degree(90)) == to_rotation(π/2)
-    @test to_rotation((v, Degree(90))) == to_rotation((v, π/2))
+    @test to_rotation(Degree(90)) ≈ to_rotation(π/2)
+    @test to_rotation((v, Degree(90))) ≈ to_rotation((v, π/2))
 end
