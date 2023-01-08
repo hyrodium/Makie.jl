@@ -11,6 +11,7 @@ using ReferenceTests.DelimitedFiles
 using ReferenceTests.Test
 using ReferenceTests.Colors: RGB, N0f8
 using Makie: Record, volume
+import Quaternions
 
 @testset "primitives" begin
     include("primitives.jl")

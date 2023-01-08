@@ -7,6 +7,8 @@ using Colors
 using FileIO
 using Makie: colorbuffer
 
+import Quaternions
+
 const RPR = RadeonProRender
 
 """

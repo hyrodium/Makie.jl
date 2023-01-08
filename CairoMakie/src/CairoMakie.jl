@@ -6,6 +6,8 @@ import SHA
 import Base64
 import Cairo
 
+import Quaternions
+
 using Makie: Scene, Lines, Text, Image, Heatmap, Scatter, @key_str, broadcast_foreach
 using Makie: convert_attribute, @extractvalue, LineSegments, to_ndim, NativeFont
 using Makie: @info, @get_attribute, Combined, MakieScreen

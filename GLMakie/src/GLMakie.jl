@@ -19,6 +19,8 @@ using Makie: spaces, is_data_space, is_pixel_space, is_relative_space, is_clip_s
 import Makie: to_font, el32convert, Shape, CIRCLE, RECTANGLE, ROUNDED_RECTANGLE, DISTANCEFIELD, TRIANGLE
 import Makie: RelocatableFolders
 
+import Quaternion
+
 using ShaderAbstractions
 using FreeTypeAbstraction
 using GeometryBasics: StaticVector

@@ -13,6 +13,7 @@ FreeType = "b38be410-82b0-50bf-ab77-7b57e271db43"
 GeometryBasics = "5c1252a2-5f33-56bf-86c9-59e7332b4326"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
+Quaternions = "94ee1d12-ae83-5a48-8b1c-48b8ff168ae0"
 SHA = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 SnoopPrecompile = "66db9d55-30c0-4569-8b51-7e840670fc0c"
 

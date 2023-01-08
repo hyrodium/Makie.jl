@@ -21,6 +21,8 @@ using ShaderAbstractions: VertexArray, Buffer, Sampler, AbstractSampler
 using ShaderAbstractions: InstancedProgram
 using GeometryBasics: StaticVector
 
+import Quaternions
+
 import Makie.FileIO
 using Makie: get_texture_atlas, SceneSpace, Pixel
 using Makie: attribute_per_char, layout_text
